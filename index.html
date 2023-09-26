@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: lightgray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      let selectedDiv = null;
+      const divs = [];
+
+      //Create 100 div
+      for (let i = 1; i <= 100; i += 1) {
+        const div = document.createElement("div");
+        div.innerText = `div${i}`;
+        div.classList.add("box");
+        divs.push(div);
+        document.body.appendChild(div);
+      }
+
+      document.body.addEventListener("click", onClick);
+
+      function onClick(event) {
+        const clickedDiv = event.target.closest("div");
+
+        if (!clickedDiv) {
+          return;
+        }
+
+        if (clickedDiv !== selectedDiv) {
+          // move to first position
+          document.body.insertBefore(clickedDiv, document.body.firstChild);
+          selectedDiv = clickedDiv;
+        } else {
+          // find index of selected div
+          const selectedIndex = divs.indexOf(selectedDiv);
+          //check if index exist and move to starting position
+          if (selectedIndex > -1) {
+            document.body.insertBefore(clickedDiv, divs[selectedIndex + 1]);
+            selectedDiv = document.body.firstChild;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
